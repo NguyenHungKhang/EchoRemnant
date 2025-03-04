@@ -41,7 +41,15 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (GameManager.instance.IsGameOver()) return;
+        if (GameManager.instance.IsGameOver() ) return;
+        if (GameManager.instance.IsGameWin())
+        {
+            isAlive = false;
+            this.enabled = false;
+            rb.linearVelocity = Vector2.zero;
+            rb.simulated = false;
+            return;
+        }
         horizontal = Input.GetAxisRaw("Horizontal");
 
         Jump();

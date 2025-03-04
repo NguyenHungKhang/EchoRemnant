@@ -8,11 +8,14 @@ public class GameManager : MonoBehaviour
     private int score = 0;
     public static GameManager instance { get; private set; }
     private bool isGameOver;
+    private bool isGameWin = false;
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private Transform startPosition;
     [SerializeField] private CinemachineCamera cinemachineCamera;
     [SerializeField] private GameObject GameOverUI;
+    [SerializeField] private GameObject GameWinUI;
+
     void Awake()
     {
         instance = this;
@@ -23,6 +26,7 @@ public class GameManager : MonoBehaviour
         UpdateScoreText();
         SpawnPlayer();
         GameOverUI.SetActive(false);
+        GameWinUI.SetActive(false);
     }
 
     public void SpawnPlayer()
@@ -47,6 +51,18 @@ public class GameManager : MonoBehaviour
         isGameOver = true;
         score = 0;
         GameOverUI.SetActive(true);
+    }
+
+    public void GameWin()
+    {
+        isGameWin = true;
+        score = 0;
+        GameWinUI.SetActive(true);
+    }
+
+    public bool IsGameWin()
+    {
+        return isGameWin;
     }
 
     public void RestartGame()
