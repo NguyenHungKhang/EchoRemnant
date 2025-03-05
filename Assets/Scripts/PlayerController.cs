@@ -5,9 +5,11 @@ public class PlayerController : MonoBehaviour
 {
     private float horizontal;
     private float speed = 8f;
+    
     private float jumpingPower = 16f;
     private int jumpCounter = 0;
     private int maxJumps = 1;
+
     private bool isRolledJump = false;
     private bool isFacingRight = true;
 
@@ -52,6 +54,7 @@ public class PlayerController : MonoBehaviour
       
             return;
         }
+        
         horizontal = Input.GetAxisRaw("Horizontal");
 
         Jump();

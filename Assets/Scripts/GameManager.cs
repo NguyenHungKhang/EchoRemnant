@@ -79,7 +79,18 @@ public class GameManager : MonoBehaviour
         GameOverUI.SetActive(false);
         ResetCoins();
         ResetJumpGems();
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+    
+    public void BackToLevelSelect()
+    {
+        SceneManager.LoadScene("LevelSelect");
+    }
+    
+    public void LoadLevel(int levelNumber)
+    {
+        string levelName = "Level " + levelNumber;
+        SceneManager.LoadScene(levelName);
     }
 
     public bool IsGameOver()
