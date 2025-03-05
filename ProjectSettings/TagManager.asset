@@ -18,7 +18,7 @@ TagManager:
   - Foreground
   - Wall
   - Background
-  - 
+  - MapOutline
   - 
   - 
   - 
@@ -48,6 +48,9 @@ TagManager:
     locked: 0
   - name: Forground
     uniqueID: 2578077371
+    locked: 0
+  - name: MapOutline
+    uniqueID: 3713396829
     locked: 0
   - name: Ground
     uniqueID: 1771677613

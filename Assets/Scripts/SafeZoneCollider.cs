@@ -1,28 +1,27 @@
 using UnityEngine;
 
-public class JumpGemController : MonoBehaviour
+public class SafeZoneCollider : MonoBehaviour
 {
+    private int damage = 999;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
     }
 
     // Update is called once per frame
     void Update()
     {
-        
     }
-    
-    private void OnTriggerEnter2D(Collider2D other)
+
+    private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Player")) // Đảm bảo Player có tag "Player"
+        if (other.CompareTag("Player"))
         {
             PlayerController player = other.GetComponent<PlayerController>();
-            if (player != null)
+            if (player != null && !GameManager.instance.IsGameWin())
             {
-                player.GetJumpGem();
-                gameObject.SetActive(false);
+                player.TakeDamage(damage);
             }
         }
     }

@@ -16,6 +16,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject GameOverUI;
     [SerializeField] private GameObject GameWinUI;
 
+    private CoinController[] coins;
+    private JumpGemController[] jumpGems;
+    
     void Awake()
     {
         instance = this;
@@ -23,6 +26,8 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        coins = FindObjectsOfType<CoinController>();
+        jumpGems = FindObjectsOfType<JumpGemController>();
         UpdateScoreText();
         SpawnPlayer();
         GameOverUI.SetActive(false);
@@ -72,11 +77,29 @@ public class GameManager : MonoBehaviour
         UpdateScoreText();
         SpawnPlayer();
         GameOverUI.SetActive(false);
+        ResetCoins();
+        ResetJumpGems();
         SceneManager.LoadScene("Game");
     }
 
     public bool IsGameOver()
     {
         return isGameOver;
+    }
+    
+    private void ResetCoins()
+    {
+        foreach (CoinController coin in coins)
+        {
+            coin.gameObject.SetActive(true);
+        }
+    }
+    
+    private void ResetJumpGems()
+    {
+        foreach (JumpGemController jumpGem in jumpGems)
+        {
+            jumpGem.gameObject.SetActive(true);
+        }
     }
 }

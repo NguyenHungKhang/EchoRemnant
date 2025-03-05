@@ -41,13 +41,15 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (GameManager.instance.IsGameOver() ) return;
+        if (GameManager.instance.IsGameOver())
+        {
+            return;
+        }
         if (GameManager.instance.IsGameWin())
         {
-            isAlive = false;
-            this.enabled = false;
             rb.linearVelocity = Vector2.zero;
             rb.simulated = false;
+      
             return;
         }
         horizontal = Input.GetAxisRaw("Horizontal");
@@ -139,9 +141,13 @@ public class PlayerController : MonoBehaviour
 
             CancelInvoke(nameof(StopWallJumping));
         }
-        else
+        else if(isWallSliding)
         {
             wallJumpingCounter -= Time.deltaTime;
+        }
+        else
+        {
+            wallJumpingCounter = 0;
         }
 
         if (Input.GetButtonDown("Jump") && wallJumpingCounter > 0f)
@@ -189,7 +195,6 @@ public class PlayerController : MonoBehaviour
 
     public void GameOver()
     {
-        isAlive = false;
         this.enabled = false;
         rb.linearVelocity = Vector2.zero;
         rb.simulated = false;
