@@ -21,7 +21,8 @@ public class GameManager : MonoBehaviour
     private JumpGemController[] jumpGems;
     private CheckPointController[] checkPoints;
     private CheckPointController lastCheckPoint = null;
-    
+    private GameObject player;
+
     void Awake()
     {
         instance = this;
@@ -40,12 +41,16 @@ public class GameManager : MonoBehaviour
 
     public void SpawnPlayer(bool respawnLastCheckPoint = true)
     {
-        GameObject newPlayerGameObject;
-        if(respawnLastCheckPoint)
-            newPlayerGameObject = Instantiate(playerPrefab, lastCheckPoint ? lastCheckPoint.transform.position : startPosition.position, Quaternion.identity); 
+        if (player != null)
+        {
+            Destroy(player);
+        }
+        if (respawnLastCheckPoint)
+            player = Instantiate(playerPrefab,
+                lastCheckPoint ? lastCheckPoint.transform.position : startPosition.position, Quaternion.identity);
         else
-            newPlayerGameObject = Instantiate(playerPrefab, startPosition.position, Quaternion.identity); 
-        cinemachineCamera.Follow = newPlayerGameObject.transform;
+            player = Instantiate(playerPrefab, startPosition.position, Quaternion.identity);
+        cinemachineCamera.Follow = player.transform;
     }
 
     public void AddScore(int scoreToAdd)
@@ -81,15 +86,17 @@ public class GameManager : MonoBehaviour
     public void RestartGame()
     {
         isGameOver = false;
+        isGameWin = false;
         score = 0;
         UpdateScoreText();
         SpawnPlayer(false);
         GameOverUI.SetActive(false);
+        GameWinUI.SetActive(false);
         ResetCoins();
         ResetJumpGems();
         ResetCheckPoints();
     }
-    
+
     public void RestartGameFromLastCheckPoint()
     {
         isGameOver = false;
@@ -98,12 +105,12 @@ public class GameManager : MonoBehaviour
         GameOverUI.SetActive(false);
         ResetJumpGems();
     }
-    
+
     public void BackToLevelSelect()
     {
         SceneManager.LoadScene("LevelSelect");
     }
-    
+
     public void LoadLevel(int levelNumber)
     {
         string levelName = "Level " + levelNumber;
@@ -114,7 +121,7 @@ public class GameManager : MonoBehaviour
     {
         return isGameOver;
     }
-    
+
     private void ResetCoins()
     {
         foreach (CoinController coin in coins)
@@ -122,7 +129,7 @@ public class GameManager : MonoBehaviour
             coin.gameObject.SetActive(true);
         }
     }
-    
+
     private void ResetJumpGems()
     {
         foreach (JumpGemController jumpGem in jumpGems)
@@ -130,21 +137,23 @@ public class GameManager : MonoBehaviour
             jumpGem.gameObject.SetActive(true);
         }
     }
-    
+
     private void ResetCheckPoints()
     {
         foreach (CheckPointController checkPoint in checkPoints)
         {
             checkPoint.DisableCheckPoint();
         }
+
+        lastCheckPoint = null;
     }
-    
+
     public void SetLastCheckPoint(CheckPointController checkPoint)
     {
         lastCheckPoint = checkPoint;
         foreach (CheckPointController oldCheckPoint in checkPoints)
         {
-            if (String.CompareOrdinal(oldCheckPoint.name, checkPoint.name) < 0)
+            if (oldCheckPoint.GetCheckPointOrder < checkPoint.GetCheckPointOrder)
             {
                 oldCheckPoint.SetCheckpoint();
             }

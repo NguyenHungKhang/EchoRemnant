@@ -5,7 +5,9 @@ public class CheckPointController : MonoBehaviour
     private bool isChecked = false;
 
     [SerializeField] private Animator animator;
-
+    [SerializeField] private int checkPointOrder;
+    public int GetCheckPointOrder => checkPointOrder;
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
