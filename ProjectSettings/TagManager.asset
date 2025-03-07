@@ -55,6 +55,9 @@ TagManager:
   - name: Ground
     uniqueID: 1771677613
     locked: 0
+  - name: MapText
+    uniqueID: 1923624307
+    locked: 0
   - name: Echo
     uniqueID: 3165510375
     locked: 0
