@@ -4,9 +4,9 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private float horizontal;
-    private float speed = 8f;
+    private float speed = 6f;
     
-    private float jumpingPower = 16f;
+    private float jumpingPower = 11f;
     private int jumpCounter = 0;
     private int maxJumps = 1;
 
@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
     private float wallJumpingTime = 0.2f;
     private float wallJumpingCounter;
     private float wallJumpingDuration = 0.2f;
-    private Vector2 wallJumpingPower = new Vector2(6f, 16f);
+    private Vector2 wallJumpingPower = new Vector2(6f, 11f);
 
     private int totalHP = 1;
     private int currentHP;
