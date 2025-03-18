@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class EndPositionCollider : MonoBehaviour
 {
+    [SerializeField] private Animator animator;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -14,12 +15,13 @@ public class EndPositionCollider : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player")) // Đảm bảo Player có tag "Player"
+        if (other.CompareTag("Player"))
         {
             PlayerController player = other.GetComponent<PlayerController>();
             if (player != null)
             {
                 GameManager.instance.GameWin();
+                animator.SetTrigger("isWin");
             }
         }
     }
