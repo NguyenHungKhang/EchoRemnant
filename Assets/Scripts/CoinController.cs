@@ -6,9 +6,11 @@ public class CoinController : MonoBehaviour
 {
     private int scoreValue = 1;
     [SerializeField] private GameManager gameManager;
+    [SerializeField] private AudioManager audioManager;
 
     void Start()
     {
+        audioManager = FindAnyObjectByType<AudioManager>();
         gameManager = FindAnyObjectByType<GameManager>();
     }
 
@@ -19,6 +21,7 @@ public class CoinController : MonoBehaviour
             PlayerController player = other.GetComponent<PlayerController>();
             if (player != null)
             {
+                audioManager.PlaySFX(audioManager.coinClip);
                 gameManager.AddScore(scoreValue);
                 gameObject.SetActive(false);
             }

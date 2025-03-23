@@ -61,11 +61,11 @@ TagManager:
   - name: Echo
     uniqueID: 3165510375
     locked: 0
-  - name: Player
-    uniqueID: 2133262481
-    locked: 0
   - name: Item
     uniqueID: 3559833343
+    locked: 0
+  - name: Player
+    uniqueID: 2133262481
     locked: 0
   - name: Trap
     uniqueID: 4242203277

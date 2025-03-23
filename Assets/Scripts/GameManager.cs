@@ -16,7 +16,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private CinemachineCamera cinemachineCamera;
     [SerializeField] private GameObject GameOverUI;
     [SerializeField] private GameObject GameWinUI;
-
+    [SerializeField] private AudioManager audioManager;
+    
     private CoinController[] coins;
     private JumpGemController[] jumpGems;
     private CheckPointController[] checkPoints;
@@ -33,6 +34,7 @@ public class GameManager : MonoBehaviour
         coins = FindObjectsOfType<CoinController>();
         jumpGems = FindObjectsOfType<JumpGemController>();
         checkPoints = FindObjectsOfType<CheckPointController>();
+        audioManager = FindAnyObjectByType<AudioManager>();
         UpdateScoreText();
         SpawnPlayer();
         GameOverUI.SetActive(false);
@@ -50,6 +52,7 @@ public class GameManager : MonoBehaviour
                 lastCheckPoint ? lastCheckPoint.transform.position : startPosition.position, Quaternion.identity);
         else
             player = Instantiate(playerPrefab, startPosition.position, Quaternion.identity);
+        if(cinemachineCamera != null)
         cinemachineCamera.Follow = player.transform;
     }
 

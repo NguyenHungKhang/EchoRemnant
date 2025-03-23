@@ -34,11 +34,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform wallCheck;
     [SerializeField] private LayerMask wallLayer;
     [SerializeField] private Animator animator;
-
+    [SerializeField] private AudioManager audioManager;
+    
     private void Start()
     {
         currentHP = totalHP;
         isAlive = true;
+        audioManager = FindAnyObjectByType<AudioManager>();
     }
 
     private void Update()
@@ -100,6 +102,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetButtonDown("Jump") & IsJumpAble())
         {
+            audioManager.PlaySFX(audioManager.jumpClip);
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpingPower);
             if (!IsGrounded() && !IsWalled())
             {
@@ -155,6 +158,8 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetButtonDown("Jump") && wallJumpingCounter > 0f)
         {
+            audioManager.PlaySFX(audioManager.jumpClip);
+            
             isWallJumping = true;
             rb.linearVelocity = new Vector2(wallJumpingDirection * wallJumpingPower.x, wallJumpingPower.y);
             wallJumpingCounter = 0f;
@@ -202,6 +207,8 @@ public class PlayerController : MonoBehaviour
         rb.linearVelocity = Vector2.zero;
         rb.simulated = false;
         animator.SetTrigger("isDead");
+        audioManager.StopMusic();
+        audioManager.PlaySFX(audioManager.loseClip);
     }
 
     public void OnDeath()
