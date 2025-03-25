@@ -31,4 +31,9 @@ public class EndPositionCollider : MonoBehaviour
             }
         }
     }
+
+    public void ReseetEndPosition()
+    {
+        animator.SetBool("isWin", false);
+    }
 }

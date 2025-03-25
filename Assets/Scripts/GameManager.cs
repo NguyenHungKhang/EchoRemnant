@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private Transform startPosition;
+    private EndPositionCollider endPosition;
     [SerializeField] private CinemachineCamera cinemachineCamera;
     [SerializeField] private GameObject GameOverUI;
     [SerializeField] private GameObject GameWinUI;
@@ -35,6 +36,7 @@ public class GameManager : MonoBehaviour
         jumpGems = FindObjectsOfType<JumpGemController>();
         checkPoints = FindObjectsOfType<CheckPointController>();
         audioManager = FindAnyObjectByType<AudioManager>();
+        endPosition = FindAnyObjectByType<EndPositionCollider>();
         UpdateScoreText();
         SpawnPlayer();
         GameOverUI.SetActive(false);
@@ -98,6 +100,7 @@ public class GameManager : MonoBehaviour
         ResetCoins();
         ResetJumpGems();
         ResetCheckPoints();
+        endPosition.ReseetEndPosition();
     }
 
     public void RestartGameFromLastCheckPoint()
@@ -107,6 +110,7 @@ public class GameManager : MonoBehaviour
         SpawnPlayer(true);
         GameOverUI.SetActive(false);
         ResetJumpGems();
+        endPosition.ReseetEndPosition();
     }
 
     public void BackToLevelSelect()

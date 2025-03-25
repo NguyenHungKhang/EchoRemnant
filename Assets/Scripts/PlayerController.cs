@@ -35,7 +35,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask wallLayer;
     [SerializeField] private Animator animator;
     [SerializeField] private AudioManager audioManager;
-    
+    [SerializeField] public ParticleSystem dustEffect;
+
     private void Start()
     {
         currentHP = totalHP;
@@ -58,7 +59,6 @@ public class PlayerController : MonoBehaviour
         }
         
         horizontal = Input.GetAxisRaw("Horizontal");
-
         Jump();
         WallSlide();
         WallJump();
@@ -100,18 +100,19 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
-        if (Input.GetButtonDown("Jump") & IsJumpAble())
+        if (Input.GetButtonDown("Jump") && IsJumpAble())
         {
+            dustEffect.Play();
             audioManager.PlaySFX(audioManager.jumpClip);
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpingPower);
-            if (!IsGrounded() && !IsWalled())
+            if (!IsGrounded() && !isWallSliding)
             {
                 jumpCounter--;
                 animator.SetTrigger("isRolledJumping");
             }
         }
 
-        if (IsGrounded() || IsWalled())
+        if (IsGrounded() || (IsWalled() && isWallSliding))
         {
             jumpCounter = maxJumps;
             isRolledJump = false;
@@ -128,14 +129,14 @@ public class PlayerController : MonoBehaviour
         if (IsWalled() && !IsGrounded() && horizontal != 0f)
         {
             isWallSliding = true;
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x,
-                Mathf.Clamp(rb.linearVelocity.y, -wallSlidingSpeed, float.MaxValue));
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, Mathf.Clamp(rb.linearVelocity.y, -wallSlidingSpeed, float.MaxValue));
         }
         else
         {
             isWallSliding = false;
         }
     }
+
 
     private void WallJump()
     {
@@ -185,6 +186,7 @@ public class PlayerController : MonoBehaviour
     {
         if (isFacingRight && horizontal < 0f || !isFacingRight && horizontal > 0f)
         {
+            StartFlip();
             isFacingRight = !isFacingRight;
             Vector3 localScale = transform.localScale;
             localScale.x *= -1f;
@@ -224,4 +226,21 @@ public class PlayerController : MonoBehaviour
         animator.SetFloat("verticalSpeed", rb.linearVelocityY > 0 ? 1 : -1);
         animator.SetBool("isWallSliding", isWallSliding);
     }
+    
+    private void Land()
+    {
+        if (IsGrounded())
+        {
+            dustEffect.Play();
+        }
+    }
+    
+    private void StartFlip()
+    {
+        if (IsGrounded())
+        {
+            dustEffect.Play();
+        }
+    }
+
 }
